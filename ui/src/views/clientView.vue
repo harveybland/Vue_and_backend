@@ -42,6 +42,17 @@
               <b-form-input v-model="arrayItem.emailaddress"></b-form-input>
           </b-form-group>
         </div>
+        <li v-for="item in caseArray" v-bind:key="item._id">
+        <div v-if="caseArray.details === null">
+          No case
+        </div>
+        <div class="mb-5">
+              <p>{{ item.caseType }}</p>
+              <p>{{ item.details }}</p>
+              <p>{{ item.start }}</p>
+              <p>{{ item.end }}</p>
+        </div>
+          </li>
          <b-dropdown-item><router-link :to="{ path: '/clientCase/' + arrayItem._id }">Case</router-link></b-dropdown-item>
       </div>
 </template>
@@ -63,7 +74,8 @@
             age: '',
             mobile: '',
             emailaddress: '',
-            }
+            },
+            caseArray: []
         }
     },
     methods: {
@@ -72,9 +84,15 @@
       axios.get('http://localhost:4001/api/client/' + this.id)
        .then(res => { this.arrayItem = res.data})
     },
+    getCase() {
+    this.id = this.$router.currentRoute.params.id;
+    axios.get('http://localhost:4001/api/case/' + this.id)
+    .then(res => {this.caseArray = res.data})
+    }
     },
     beforeMount() {
     this.getClient();
+    this.getCase()
   }
   }
 </script>

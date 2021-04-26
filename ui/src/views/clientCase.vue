@@ -1,8 +1,8 @@
 <template>
     <div>
         client page
-        <li v-for="item in arrayItem" v-bind:key="item._id">
-            <p>{{ item.details }}</p>
+        <li v-for="item in caseArray" v-bind:key="item._id">
+            <p>{{ item.details  }}</p>
         </li>
     </div>
 </template>
@@ -21,10 +21,10 @@ export default {
         getCase() {
         this.id = this.$router.currentRoute.params.id;
         axios.get('http://localhost:4001/api/case/' + this.id)
-        .then(res => {this.arrayItem = res.data})
+        .then(res => {this.caseArray = res.data})
     }
     },
-    aftermount() {
+    beforeMount() {
         this.getCase()
     }
     }
