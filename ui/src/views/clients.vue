@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Client page</h1>
     <li v-for="item in arrayItem" v-bind:key="item._id">
       <p>{{ item.firstname }} {{ item.surname }}</p>

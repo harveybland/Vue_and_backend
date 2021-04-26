@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import home from '../views/home.vue'
 import clients from '../views/clients.vue'
 import clientView from '../views/clientView.vue'
+import clientCase from '../views/clientCase.vue'
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,10 @@ const routes = [
   {
     path: '/clientView/:id',
     component: clientView
+  },
+  {
+    path: '/clientCase/:id',
+    component: clientCase
   },
   {
     path: '/createClient',

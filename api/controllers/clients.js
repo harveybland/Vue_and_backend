@@ -12,9 +12,10 @@ core.app.get('/api/clients', async function (req, resp) {
     }
   });
 
-// Create client
+
+// Create Client
 core.app.post('/api/client', async function (req, resp) {
-  schemas.clientModel.create(req.body)
+  const result = schemas.clientModel.create(req.body)
   try {
     console.log(result);
     resp.status(200).json(result);
@@ -23,6 +24,7 @@ core.app.post('/api/client', async function (req, resp) {
     resp.status('404').json('error');
   };
 });
+
 
 // Gets single client
 core.app.get('/api/client/:uid', async function (req, resp) {
@@ -55,6 +57,40 @@ core.app.post('/api/createClient', async function (req, resp) {
     resp.status('404').json('error');
   };
 });
+
+
+//case for client
+core.app.get('/api/clientCase/:uid', async function (req, resp) {
+  try {
+    const clientCase = await schemas.clientModel.aggregate([
+      {
+        $match:
+        {
+          jobid: core.mongoose.Types.ObjectId(req.params.uid)
+        }
+      },
+      { $lookup: 
+          {
+              from: 'cases',
+              localField: '_id',
+              foreignField: 'clientid',
+              as: 'case'
+          }
+          },
+    ]);
+    resp.status(200).json(clientCase);
+  }
+  catch {
+    resp.status('404').json('error')
+  }
+});
+
+
+
+
+//////
+
+
 
 //Update a client
 core.app.put('/api/updateClient/:uid', async (req, resp) => {
