@@ -17,18 +17,16 @@ const clientSchema = new core.Schema({
 });
 
 const caseSchema = new core.Schema({
-    caseid: { type: core.mongoose.Schema.ObjectId, required: true },
+    clientid: { type: core.mongoose.Schema.ObjectId, required: true },
     caseType: String,
     details: String,
     start: {
 		type: Date,
-		default: Date.now,
-        required: true
+		default: Date.now
 	},
 	end: {
 		type: Date,
-		default: () => Date.now() + 7*24*60*60*1000,
-        required: true
+		default: () => Date.now() + 7*24*60*60*1000
 	}
 });
 

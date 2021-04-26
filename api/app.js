@@ -1,7 +1,7 @@
 const core = require('./core');
-require('./controllers/case');
 require('./controllers/clients');
+require('./controllers/case');
 
-const port = process.env.PORT || 4000
+const port = process.env.PORT || 4001
 // start server from core import
-core.app.listen(port, () => { console.log('server started on port 4000') })
+core.app.listen(port, () => { console.log('server started on port 4001') })
