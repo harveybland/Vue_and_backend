@@ -108,6 +108,8 @@ import axios from 'axios';
 </script>
 
 <style lang="scss" scoped>
+@import './styles/styles.scss';
+
     .contain {
         text-align: left;
     }

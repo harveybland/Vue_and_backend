@@ -1,17 +1,58 @@
 const core = require('../core');
 const schemas = require('../schemas/schemas');
 
-// Get all clients
-core.app.get('/api/clients', async function (req, resp) {
-    try {
-      const clients = await schemas.clientModel.find({ isDeleted: false });
-      resp.status(200).json(clients);
-    }
-    catch {
-      resp.status('404').json('error')
-    }
-  });
+//Get all clients
+core.app.get('/api/allClients', async function (req, resp) {
+  try {
+    const clientCase = await schemas.clientModel.aggregate([
+      {
+        $match:
+        {
+           isDeleted: false
+        }
+      },
+      { $lookup: 
+          {
+              from: 'cases',
+              localField: '_id',
+              foreignField: 'clientid',
+              as: 'case'
+          }
+          },
+    ]);
+    resp.status(200).json(clientCase);
+  }
+  catch {
+    resp.status('404').json('error')
+  }
+});
 
+
+//Get closed clients
+core.app.get('/api/closedClients', async function (req, resp) {
+  try {
+    const clientCase = await schemas.clientModel.aggregate([
+      {
+        $match:
+        {
+           isDeleted: true
+        }
+      },
+      { $lookup: 
+          {
+              from: 'cases',
+              localField: '_id',
+              foreignField: 'clientid',
+              as: 'case'
+          }
+          },
+    ]);
+    resp.status(200).json(clientCase);
+  }
+  catch {
+    resp.status('404').json('error')
+  }
+});
 
 // Create Client
 core.app.post('/api/client', async function (req, resp) {
@@ -59,14 +100,15 @@ core.app.post('/api/createClient', async function (req, resp) {
 });
 
 
-//case for client
+
+//case for clientId
 core.app.get('/api/clientCase/:uid', async function (req, resp) {
   try {
     const clientCase = await schemas.clientModel.aggregate([
       {
         $match:
         {
-          jobid: core.mongoose.Types.ObjectId(req.params.uid)
+          _id: core.mongoose.Types.ObjectId(req.params.uid)
         }
       },
       { $lookup: 
@@ -84,12 +126,6 @@ core.app.get('/api/clientCase/:uid', async function (req, resp) {
     resp.status('404').json('error')
   }
 });
-
-
-
-
-//////
-
 
 
 //Update a client
@@ -116,7 +152,7 @@ core.app.put('/api/updateClient/:uid', async (req, resp) => {
 });
 
 // Delete client
-core.app.delete('/api/user/:uid', async function (req, resp) {
+core.app.delete('/api/client/:uid', async function (req, resp) {
   try {
     const id = req.params.uid;
     let user = await schemas.clientModel.findOne({ _id: id })

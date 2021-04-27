@@ -1,0 +1,53 @@
+//Standard styles
+a {
+    color: #000;
+}
+a:hover {
+    text-decoration: none;
+    color: #3c6e71;
+}
+li {
+    list-style: none;
+    display: flex;
+}
+
+
+.banner {
+    background-color: lightgray;
+    margin: 0 0 25px 0;
+    padding: 25px 0 11px 0;
+    a {
+        padding: 17px 8px;
+        margin-right: 20px;
+    }
+    a:hover {
+        background-color: #F5F5F5;
+    }
+}
+
+.title {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background: #3c6e71;
+    color: #fff;
+    padding: 10px 10px 0 10px;
+    text-align: left;
+}
+
+.clients {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    background-color: #fff;
+    border-bottom: 1px solid lightgrey;
+    font-size: 16px;
+    text-align: left;
+    p {
+        padding: 15px 20px 10px 10px;
+        margin: 0;
+    }
+  }
+
+  .twin-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

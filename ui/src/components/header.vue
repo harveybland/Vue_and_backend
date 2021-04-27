@@ -7,6 +7,8 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
+        <router-link to="/clients">clients</router-link> |
+        <router-link to="/cases">cases</router-link> |
         <router-link to="/createClient">Create</router-link>
       </b-navbar-nav>
 

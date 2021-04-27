@@ -1,12 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/clients">clients</router-link> |
-      <router-link to="/createClient">Create</router-link>
-    </div>
+    <Header></Header>
     <router-view/>
   </div>
 </template>
+
+<script>
+import Vue from "vue";
+import Header from "./components/header.vue";
+export default Vue.extend ({
+  name: 'Home',
+  components: {
+    Header
+  }
+});
+
+</script>
 
 <style>
 #app {

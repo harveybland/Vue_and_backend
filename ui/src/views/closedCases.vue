@@ -1,11 +1,11 @@
 <template>
     <div>
         <div class="banner">
-          <router-link :to="{ path: '/clients' }" class="active pt-3">All clients</router-link>
-          <router-link :to="{ path: '/clients/closedCases' }">Closed Cases</router-link>
+          <router-link :to="{ path: '/clients' }">All clients</router-link>
+          <router-link :to="{ path: '/clients/closedCases' }" class="active">Closed Cases</router-link>
         </div>
-          <div class="box container">
-            <div class="title">
+        <div  class="box container">
+              <div class="title">
                 <p>Name</p>
                 <p>Address</p>
                 <p>Case Type</p>
@@ -18,10 +18,10 @@
                   <p>{{ item.address }}</p>
               </div>
               <div>
-                 <p>{{ item.case[0].caseType }}</p>
+                <p>Personal Injury</p>
               </div>
               <div>
-                   <p>{{ item.case[0].end }}</p>
+                   <p>09/04/2021</p>
               </div>
                 <div>
                   <router-link :to="{ path: '/clientView/' + item._id }" class="nav">
@@ -29,29 +29,29 @@
                   </router-link>
             </div>
         </li>
-        </div>
       </div>
+    </div>
 </template>
 
 <script>
-let clients = [{ firstname: 'tests'}]
+let user = { firstname: 'test' };
 import axios from 'axios';
 export default {
-  name: 'clients',
-  data() {
+    name: 'closedCases',
+    data() {
     return {
-      arrayItem: clients
-    }
+      arrayItem: user,
+    };
   },
   methods: {
-    async getClients() {
-      axios.get('http://localhost:4001/api/allClients')
-      .then(res => { this.arrayItem = res.data })
+    async getJobs() {
+        await axios.get('http://localhost:4001/api/closedClients')
+        .then(res => { this.arrayItem = res.data })
     }
-  },
+    },
       beforeMount() {
-      this.getClients();
-  }
+        this.getJobs();
+    }
 }
 </script>
 

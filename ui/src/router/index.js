@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import home from '../views/home.vue'
 import clients from '../views/clients.vue'
+import cases from '../views/cases.vue'
 import clientView from '../views/clientView.vue'
-import clientCase from '../views/clientCase.vue'
+import closedCases from '../views/closedCases.vue'
 
 Vue.use(VueRouter)
 
@@ -17,12 +18,16 @@ const routes = [
     component: clients
   },
   {
+    path: '/cases',
+    component: cases
+  },
+  {
     path: '/clientView/:id',
     component: clientView
   },
   {
-    path: '/clientCase/:id',
-    component: clientCase
+    path: '/clients/closedCases',
+    component: closedCases
   },
   {
     path: '/createClient',
