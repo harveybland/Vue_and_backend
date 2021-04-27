@@ -94,13 +94,10 @@ import axios from 'axios';
         county: this.$data.county, DOB: this.$data.DOB,  age: this.$data.age,
         mobile: this.$data.mobile, emailaddress: this.$data.emailaddress,
         caseTypeId: this.$data.caseTypeId };
-        axios.post('http://localhost:4001/api/client', body)
+        axios.post('http://localhost:4001/api/createClient', body)
         .then( res => {
             console.log(res)
             this.$router.push('/Clients')
-        })
-        .catch(err => {
-            console.log(err)
         })
         }
     }

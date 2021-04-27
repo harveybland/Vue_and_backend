@@ -18,10 +18,10 @@
                   <p>{{ item.address }}</p>
               </div>
               <div>
-                 <p>{{ item.case[0].caseType }}</p>
+                 <p>{{ item.case && item.case.length > 0 ? item.case[0].caseType : '' }}</p>
               </div>
               <div>
-                   <p>{{ item.case[0].end }}</p>
+                   <p>{{ item.case && item.case.length >0 ? item.case[0].end : '' }}</p>
               </div>
                 <div>
                   <router-link :to="{ path: '/clientView/' + item._id }" class="nav">

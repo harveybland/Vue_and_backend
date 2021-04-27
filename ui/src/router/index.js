@@ -1,25 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import home from '../views/home.vue'
 import clients from '../views/clients.vue'
-import cases from '../views/cases.vue'
 import clientView from '../views/clientView.vue'
 import closedCases from '../views/closedCases.vue'
+import medical from '../views/Medical.vue'
+import Injury from '../views/Injury.vue'
+import Conveyancing from '../views/Conveyancing.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    component: home
-  },
-  {
     path: '/clients',
     component: clients
-  },
-  {
-    path: '/cases',
-    component: cases
   },
   {
     path: '/clientView/:id',
@@ -28,6 +21,18 @@ const routes = [
   {
     path: '/clients/closedCases',
     component: closedCases
+  },
+  {
+    path: '/medical',
+    component: medical
+  },
+  {
+    path: '/Injury',
+    component: Injury
+  },
+  {
+    path: '/Conveyancing',
+    component: Conveyancing
   },
   {
     path: '/createClient',

@@ -1,6 +1,7 @@
 <template>
     <div class="container">
       <h3>Clients Profile</h3>
+      <div class="profile-border">
       <div class="profile">
         <div>
           <b-icon icon="person-circle" style="width: 120px; height: 120px; color: #3c6e71;" ></b-icon>
@@ -54,35 +55,51 @@
           <b-button variant="danger" @click.prevent="deleteVacancy(arrayItem._id)">Delete</b-button>
       </div>
       </div>
+      </div>
 
-        <li v-for="item in caseArray" v-bind:key="item._id">
-        <div v-if="caseArray.details === null">
-          <p>Add case</p>
-        </div>
-        <div class="mb-5">
-              <p>{{ item.caseType }}</p>
-              <p>{{ item.details }}</p>
-              <p>{{ item.start }}</p>
-              <p>{{ item.end }}</p>
-        </div>
-        </li>
+          <div class="mb-5" v-if="arrayItem.case && arrayItem.case.length > 0">
+              <h3>Case</h3>
+              <div class="case">
+                <div>
+                  <label>Case Type</label>
+                  <p>{{ arrayItem.case && arrayItem.case.length > 0 ? arrayItem.case[0].caseType : '' }}</p>
+                </div>
+                <div>
+                  <label>Details</label>
+                  <p>{{ arrayItem.case && arrayItem.case.length > 0 ? arrayItem.case[0].details : '' }}</p>
+                </div>
+                <div>
+                  <label>Date of Submission</label>
+                  <p>{{ arrayItem.case && arrayItem.case.length > 0 ? arrayItem.case[0].start : '' }}</p>
+                </div>
+                <div>
+                  <label>Court Date</label>
+                  <p>{{ arrayItem.case && arrayItem.case.length > 0 ? arrayItem.case[0].end : '' }}</p>
+                </div>
+              </div>
+          </div>
 
-      <div class="addCase">
-        <h3>Case Type</h3>
+      <div class="addCase" v-if="arrayItem.case && arrayItem.case.length === 0">
+        <h3>Add Case</h3>
         <div class="case-input">
+                <b-form-group class="displaynone">
+                      <label>id</label>
+                      <b-form-input v-model="arrayItem._id"></b-form-input>
+                </b-form-group>
             <b-form-group>
+            <label>Case Type</label>
             <li>
               <b-form-select :options="options"></b-form-select>
             </li>
           </b-form-group>
           <b-form-group>
                 <label>Details</label>
-                  <b-form-textarea id="textarea-no-resize" placeholder="Details" v-model="details" rows="3" no-resize ></b-form-textarea>
+                  <b-form-textarea v-model="details" id="textarea-no-resize" placeholder="Details"  rows="3" no-resize ></b-form-textarea>
             </b-form-group>
 
             <b-form-group>
                 <label>Todays Date</label>
-                <b-form-datepicker id="example-datepicker" v-model="date" class="mb-2"></b-form-datepicker>
+                <b-form-datepicker v-model="date" id="example-datepicker"  class="mb-2"></b-form-datepicker>
             </b-form-group>
             <b-button @click.prevent="addCase" variant="primary" class="mb-4">Add</b-button>
           </div>
@@ -107,26 +124,22 @@
             age: '',
             mobile: '',
             emailaddress: '',
+            _id: ''
             },
-            caseArray: [],
-            caseItem: []
+            options: [
+              { text: 'Personal Injury' },
+              { text: 'Medical Negligence' },
+              { text: 'conveyancing' }
+            ],
+            details: '',
+            date: ''
         }
     },
     methods: {
-    getClient() {
-      this.id = this.$router.currentRoute.params.id;
-      axios.get('http://localhost:4001/api/client/' + this.id)
-       .then(res => { this.arrayItem = res.data})
-    },
       getClientCase() {
       this.id = this.$router.currentRoute.params.id;
       axios.get('http://localhost:4001/api/clientCase/' + this.id)
-      .then(res => { this.caseItem = res.data })
-    },
-    getCase() {
-      this.id = this.$router.currentRoute.params.id;
-      axios.get('http://localhost:4001/api/case/' + this.id)
-      .then(res => {this.caseArray = res.data})
+      .then(res => { this.arrayItem = res.data })
     },
     deleteVacancy() {
       this.id = this.$router.currentRoute.params.id;
@@ -140,7 +153,7 @@
       const body = { firstname: this.$data.arrayItem.firstname, surname: this.$data.arrayItem.surname,
       address: this.$data.arrayItem.address, city: this.$data.arrayItem.city, postcode: this.$data.arrayItem.postcode,
       county: this.$data.arrayItem.county, DOB: this.$data.arrayItem.DOB,  age: this.$data.arrayItem.age,
-      mobile: this.$data.arrayItem.mobile, emailaddress: this.$data.arrayItem.emailaddress,};
+      mobile: this.$data.arrayItem.mobile, emailaddress: this.$data.arrayItem.emailaddress };
       this.id = this.$router.currentRoute.params.id;
       axios.put('http://localhost:4001/api/updateClient/' + this.id, body)
       .then(res => {
@@ -148,18 +161,28 @@
         this.$router.push('/Clients');
       })
     },
+      addCase() {
+        const body = { clientid: this.$data.arrayItem._id, options: this.$data.options, details: this.$data.details,
+        date: this.$data.date };
+        this.id = this.$router.currentRoute.params.id;
+        axios.post('http://localhost:4001/api/case/' + this.id, body)
+        .then( res => {
+          location.reload();
+          console.log(res)
+        })
+      }
     },
     beforeMount() {
-    this.getClient();
     this.getClientCase()
-    this.getCase()
   }
   }
 </script>
 
 <style lang="scss" scoped>
 @import './styles/styles.scss';
-
+.displaynone {
+  display: none;
+}
   h3 {
     background-color: #3c6e71;
     color: #fff;
@@ -173,6 +196,10 @@
     grid-template-columns: 1fr 2fr;
     padding: 20px 40px 0 0;
   }
+  .profile-border {
+    border: 0.5px solid lightgray;
+    margin-bottom: 30px;
+  }
   .btns {
     display: flex;
     justify-content: center;
@@ -185,6 +212,8 @@
   }
   .addCase {
     background-color: #fff;
+    border: 0.5px solid lightgray;
+    margin-bottom: 50px;
     .case-input {
       padding: 20px 20px;
     }
